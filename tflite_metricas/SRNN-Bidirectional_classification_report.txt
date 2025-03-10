@@ -1,0 +1,12 @@
+Acurácia: 0.9904
+
+              precision    recall  f1-score   support
+
+           0       1.00      0.99      0.99       347
+           1       0.95      1.00      0.97        70
+
+    accuracy                           0.99       417
+   macro avg       0.97      0.99      0.98       417
+weighted avg       0.99      0.99      0.99       417
+
+Número ideal de épocas: 126

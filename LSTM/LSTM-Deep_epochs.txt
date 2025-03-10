@@ -1,0 +1,2 @@
+Total de épocas configuradas: 500
+Treinamento interrompido antecipadamente na época: 49

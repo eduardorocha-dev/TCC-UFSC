@@ -1,0 +1,99 @@
+--- Início do arquivo: GRU-Bidirectional_classification_report.txt ---
+Acurácia: 0.9904
+
+              precision    recall  f1-score   support
+
+           0       1.00      0.99      0.99       347
+           1       0.95      1.00      0.97        70
+
+    accuracy                           0.99       417
+   macro avg       0.97      0.99      0.98       417
+weighted avg       0.99      0.99      0.99       417
+
+Número ideal de épocas: 66
+
+--- Fim do arquivo: GRU-Bidirectional_classification_report.txt ---
+
+--- Início do arquivo: gru-microcontrolador.txt ---
+Acurácia: 0.9842
+
+Relatório de Classificação:
+              precision    recall  f1-score   support
+
+           0       0.99      0.99      0.99      1170
+           1       0.93      0.97      0.95       219
+
+    accuracy                           0.98      1389
+   macro avg       0.96      0.98      0.97      1389
+weighted avg       0.98      0.98      0.98      1389
+
+Número ideal de épocas: 161
+
+--- Fim do arquivo: gru-microcontrolador.txt ---
+
+--- Início do arquivo: LSTM-Dropout_classification_report.txt ---
+Acurácia: 0.9904
+
+              precision    recall  f1-score   support
+
+           0       1.00      0.99      0.99       347
+           1       0.95      1.00      0.97        70
+
+    accuracy                           0.99       417
+   macro avg       0.97      0.99      0.98       417
+weighted avg       0.99      0.99      0.99       417
+
+Número ideal de épocas: 78
+
+--- Fim do arquivo: LSTM-Dropout_classification_report.txt ---
+
+--- Início do arquivo: lstm-microcontrolador.txt ---
+Acurácia: 0.9856
+
+Relatório de Classificação:
+              precision    recall  f1-score   support
+
+           0       1.00      0.99      0.99      1170
+           1       0.93      0.98      0.96       219
+
+    accuracy                           0.99      1389
+   macro avg       0.96      0.98      0.97      1389
+weighted avg       0.99      0.99      0.99      1389
+
+Número ideal de épocas: 161
+
+--- Fim do arquivo: lstm-microcontrolador.txt ---
+
+--- Início do arquivo: SRNN-Bidirectional_classification_report.txt ---
+Acurácia: 0.9904
+
+              precision    recall  f1-score   support
+
+           0       1.00      0.99      0.99       347
+           1       0.95      1.00      0.97        70
+
+    accuracy                           0.99       417
+   macro avg       0.97      0.99      0.98       417
+weighted avg       0.99      0.99      0.99       417
+
+Número ideal de épocas: 126
+
+--- Fim do arquivo: SRNN-Bidirectional_classification_report.txt ---
+
+--- Início do arquivo: srnn-microcontrolador.txt ---
+Acurácia: 0.9856
+
+Relatório de Classificação:
+              precision    recall  f1-score   support
+
+           0       1.00      0.99      0.99      1170
+           1       0.93      0.98      0.96       219
+
+    accuracy                           0.99      1389
+   macro avg       0.96      0.98      0.97      1389
+weighted avg       0.99      0.99      0.99      1389
+
+Número ideal de épocas: 161
+
+--- Fim do arquivo: srnn-microcontrolador.txt ---
+
