@@ -1,27 +1,130 @@
-# Aplicações de Inteligência Artificial em Dispositivos Embarcados para Monitoramento Térmico de Vacinas  
+# AI on the Edge — TinyML for Embedded Vaccine Cold-Chain Monitoring
 
-Este repositório contém o código e os materiais desenvolvidos para o meu Trabalho de Conclusão de Curso (TCC) em Engenharia Mecatrônica na Universidade Federal de Santa Catarina (UFSC) – Centro Tecnológico de Joinville.  
+> **Bachelor's thesis project — CTJ / Federal University of Santa Catarina (UFSC)**
+> Investigating the deployment of artificial intelligence models on ESP32 microcontrollers for thermal monitoring of vaccines.
 
-O projeto investiga a implementação de sistemas de inteligência artificial (IA) em microcontroladores ESP32, com foco na adaptação e otimização de modelos previamente desenvolvidos em ambiente computacional para um contexto de hardware embarcado. O principal desafio abordado foi a transferência dessas funcionalidades para dispositivos com restrições de memória e capacidade de processamento, visando aplicações na gestão da cadeia de frio para vacinas.  
+---
 
-## 📌 Objetivos  
-- Implementar modelos de aprendizado de máquina em microcontroladores para predição do estado da porta e da temperatura interna de refrigeradores usados no armazenamento de vacinas.  
-- Comparar o desempenho dos modelos implementados no microcontrolador com os processados em computador.  
-- Desenvolver modelos de redes neurais artificiais para aprimorar a eficiência dos sistemas embarcados.  
-- Avaliar o impacto da importação dos modelos para um ambiente de hardware com recursos limitados.  
+## Overview
 
-## 🛠️ Tecnologias Utilizadas  
-- **Microcontrolador ESP32**  
-- **Linguagens e Bibliotecas:**  
-  - Python (TensorFlow, scikit-learn, NumPy)  
-  - C (para integração com microcontroladores)  
-  - TinyML e emlearn (para conversão e otimização de modelos)  
-- **Modelos de IA:**  
-  - Árvores de Decisão  
-  - Redes Neurais Recorrentes (SimpleRNN, GRU, LSTM)  
+This project explores the feasibility of running machine learning models directly on resource-constrained embedded hardware. Models originally trained in a full computational environment were adapted and ported to the **ESP32 microcontroller** using TinyML techniques, demonstrating that effective AI inference is achievable even under strict memory and processing constraints.
 
-## 📊 Resultados  
-Os resultados demonstraram que, apesar de uma leve redução no desempenho dos modelos após a conversão para ambiente embarcado, os sistemas se mostraram eficientes na tarefa de monitoramento térmico. A implementação de redes neurais possibilitou melhorias na predição do estado da porta e da temperatura do buffer térmico, contribuindo para a confiabilidade da solução proposta.  
+The primary application domain is **vaccine cold-chain monitoring** — a safety-critical context where low-cost, autonomous, and intelligent edge devices can make a real-world difference.
 
-## 📜 Contribuição  
-Este projeto contribui para o avanço de soluções inteligentes voltadas para dispositivos de baixo consumo energético, promovendo inovações na Internet das Coisas (IoT) e na preservação de vacinas em locais com infraestrutura limitada.  
+---
+
+## Motivation
+
+Microcontrollers are ubiquitous in IoT deployments, but their limited resources (RAM, flash, and no floating-point unit in many variants) make running conventional ML models impractical. This work bridges the gap between:
+
+- Models developed by students at **CTJ-UFSC** in standard Python/TensorFlow environments
+- Deployment on **ESP32** via TensorFlow Lite and the `emlearn` C-header approach
+
+Despite a slight performance reduction compared to the original models, results confirmed **satisfactory accuracy** on-device — validating the viability of TinyML in embedded, real-world scenarios.
+
+---
+
+## Project Structure
+
+```
+.
+├── data/
+│   ├── raw/                  ← Raw Arduino serial captures (.txt)
+│   └── processed/            ← Normalized and concatenated datasets (.xlsx)
+│
+├── models/
+│   ├── SRNN/                 ← Simple RNN variants (.keras + training plots)
+│   ├── GRU/                  ← GRU variants (.keras + training plots)
+│   ├── LSTM/                 ← LSTM variants (.keras + training plots)
+│   └── tflite/               ← TensorFlow Lite converted models
+│       ├── SRNN/
+│       ├── GRU/
+│       └── LSTM/
+│
+├── embedded/
+│   ├── decision_tree/        ← C headers generated via emlearn & micromlgen
+│   └── arduino/              ← Arduino sketch for ESP32
+│
+├── results/
+│   ├── metrics/              ← Classification reports, MSE/MAE logs
+│   └── plots/                ← Prediction comparison plots
+│
+├── src/
+│   ├── preprocess.py         ← Data loading & preparation (regression + classification)
+│   ├── models.py             ← All 15 RNN model definitions (SRNN / GRU / LSTM)
+│   ├── train.py              ← Full training pipeline with CLI
+│   ├── evaluate.py           ← Evaluation for .keras and .tflite models
+│   ├── convert.py            ← Keras → TFLite and Decision Tree → C header
+│   └── serial_read.py        ← Arduino serial port data capture
+│
+├── config.yaml               ← Centralized project parameters
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Methodology
+
+The pipeline follows four stages:
+
+```
+Raw sensor data  →  Model training  →  Model conversion  →  ESP32 deployment
+(Arduino serial)    (Keras / sklearn)   (TFLite / emlearn)   (TinyML inference)
+```
+
+**Three model families** were evaluated, each in five architectural variants:
+
+| # | Model              | Family |
+|---|--------------------|--------|
+| 1 | SRN (baseline)     | SRNN   |
+| 2 | SRNN-Deep          | SRNN   |
+| 3 | SRNN-Dropout       | SRNN   |
+| 4 | SRNN-Bidirectional | SRNN   |
+| 5 | SRNN-Large         | SRNN   |
+| 6 | GRU (baseline)     | GRU    |
+| 7 | GRU-Deep           | GRU    |
+| 8 | GRU-Dropout        | GRU    |
+| 9 | GRU-Bidirectional  | GRU    |
+|10 | GRU-Large          | GRU    |
+|11 | LSTM (baseline)    | LSTM   |
+|12 | LSTM-Deep          | LSTM   |
+|13 | LSTM-Dropout       | LSTM   |
+|14 | LSTM-Bidirectional | LSTM   |
+|15 | LSTM-Large         | LSTM   |
+
+**Decision trees** were also explored as a lightweight alternative, exported directly as C headers for integration into Arduino sketches via `emlearn` and `micromlgen`.
+
+
+## Key Results
+
+- All 15 model variants were successfully converted to `.tflite` and executed on ESP32
+- Decision trees exported as C headers ran inference with **no external libraries** on the microcontroller
+- A **slight accuracy reduction** was observed post-conversion, within acceptable margins for thermal monitoring
+- Results validate **TinyML as a viable path** for IoT edge intelligence in safety-critical applications
+
+---
+
+## Embedded Libraries
+
+| Library | Purpose |
+|---------|---------|
+| [TensorFlow Lite for Microcontrollers](https://www.tensorflow.org/lite/microcontrollers) | Running `.tflite` models on ESP32 |
+| [emlearn](https://emlearn.org/) | Converting sklearn decision trees to C code |
+| [micromlgen](https://github.com/eloquentarduino/micromlgen) | Alternative C header generation for Arduino |
+
+---
+
+## Application Context
+
+Vaccine cold-chain integrity is a critical public health concern. Temperature excursions during storage or transport can silently compromise vaccine efficacy. This project demonstrates that a **low-cost ESP32 + ML sensor node** can perform intelligent thermal anomaly detection autonomously — without cloud connectivity — making it suitable for remote clinics, mobile vaccination units, and resource-limited environments.
+
+---
+
+## Academic Context
+
+| | |
+|---|---|
+| **Institution** | CTJ — Federal University of Santa Catarina (UFSC) |
+| **Type** | Bachelor's Thesis (TCC) |
+| **Focus areas** | TinyML · Embedded Systems · IoT · Vaccine Cold Chain · Edge AI |
