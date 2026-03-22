@@ -1,0 +1,42 @@
+# config.yaml
+# ---------------------------------------------------------------------------
+# Configurações centralizadas do projeto.
+# Altere aqui em vez de editar os scripts diretamente.
+# ---------------------------------------------------------------------------
+
+# ── Dados ──────────────────────────────────────────────────────────────────
+data:
+  regression_file:    "data/processed/dados_normalizados_s.xlsx"
+  classification_file: "data/processed/dados_concatenados_norma2.xlsx"
+  test_size:    0.3
+  random_state: 42
+
+# ── Treino ─────────────────────────────────────────────────────────────────
+training:
+  epochs:      500
+  batch_size:  32
+  val_split:   0.1
+  patience:    10
+  model_types: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  show_plots:  false
+
+# ── Caminhos ───────────────────────────────────────────────────────────────
+paths:
+  models_dir:  "models"
+  tflite_dir:  "models/tflite"
+  results_dir: "results"
+  embedded_dir: "embedded/decision_tree"
+
+# ── Árvore de decisão ──────────────────────────────────────────────────────
+decision_tree:
+  depth_min:  21
+  depth_max:  101
+  depth_step: 5
+  plot:       true
+
+# ── Arduino / Serial ───────────────────────────────────────────────────────
+serial:
+  port:     "COM3"
+  baud:     9600
+  encoding: "utf-8"
+  raw_dir:  "data/raw"
