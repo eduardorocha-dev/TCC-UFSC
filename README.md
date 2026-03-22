@@ -1,4 +1,4 @@
-# AI on the Edge — TinyML for Embedded Vaccine Cold-Chain Monitoring
+# TinyML for Embedded Vaccine Cold-Chain Monitoring
 
 > **Bachelor's thesis project — CTJ / Federal University of Santa Catarina (UFSC)**
 > Investigating the deployment of artificial intelligence models on ESP32 microcontrollers for thermal monitoring of vaccines.
